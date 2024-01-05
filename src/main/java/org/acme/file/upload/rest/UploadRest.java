@@ -59,7 +59,8 @@ public class UploadRest {
     java.io.File file = new java.io.File(configuration.getLocation() + filename);
     try (InputStream targetStream = new FileInputStream(file)) {
       byteFile = targetStream.readAllBytes();
-    } catch (Exception e) {
+    } catch (IOException e) {
+      throw new IOException(e.getCause());
     }
     return ResponseEntity.ok()
         .contentLength(byteFile != null ? byteFile.length : 0)
@@ -74,6 +75,7 @@ public class UploadRest {
     try (InputStream targetStream = new FileInputStream(file)) {
       byteFile = targetStream.readAllBytes();
     } catch (Exception e) {
+      throw new IOException(e.getCause());
     }
     return ResponseEntity.ok()
         .contentLength(byteFile != null ? byteFile.length : 0)
